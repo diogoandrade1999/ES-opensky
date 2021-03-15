@@ -11,7 +11,16 @@
 
             <!--/*/ <th:block th:include="fragments/search :: search"></th:block> /*/-->
 
-            <div id="airports"></div>
+            <h4 class="text-info mt-4" th:text="${msg}"></h4>
+            <div th:if="${not #lists.isEmpty(flights)}">
+                <h2>Flights List</h2>
+                <table class="table mt-4">
+                    <tr th:each="flight : ${flights}">
+                        <td th:text="${flight}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         </main>
     </body>
 </html>
