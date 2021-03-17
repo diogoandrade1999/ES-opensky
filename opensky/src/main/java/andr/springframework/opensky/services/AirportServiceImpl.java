@@ -28,7 +28,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public List<Airport> seachAirports(String keyword) {
+    public List<Airport> searchAirports(String keyword) {
         if (keyword != null) {
             return airportRepository.findByNameContainsAllIgnoreCase(keyword);
         }

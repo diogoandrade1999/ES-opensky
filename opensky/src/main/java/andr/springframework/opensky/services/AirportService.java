@@ -10,7 +10,7 @@ public interface AirportService {
 
     Airport getAirportByCode(String code);
 
-    List<Airport> seachAirports(String keyword);
+    List<Airport> searchAirports(String keyword);
 
     Airport saveAirport(Airport airport);
 

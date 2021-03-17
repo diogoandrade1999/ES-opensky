@@ -26,7 +26,7 @@ public class AirportRestController {
     @PostMapping
     @ResponseBody
     public List<Airport> airports(@RequestParam(value = "", required = true) String keyword) {
-        return airportService.seachAirports(keyword);
+        return airportService.searchAirports(keyword);
     }
 
 }
