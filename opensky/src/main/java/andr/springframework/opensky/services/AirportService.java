@@ -8,7 +8,7 @@ public interface AirportService {
 
     Iterable<Airport> listAllAirports();
 
-    Airport getAirportByCode(String code);
+    Airport getAirportByIcao(String icao);
 
     List<Airport> searchAirports(String keyword);
 

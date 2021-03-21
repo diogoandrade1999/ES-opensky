@@ -23,8 +23,8 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public Airport getAirportByCode(String code) {
-        return airportRepository.findById(code).orElse(null);
+    public Airport getAirportByIcao(String icao) {
+        return airportRepository.findById(icao).orElse(null);
     }
 
     @Override

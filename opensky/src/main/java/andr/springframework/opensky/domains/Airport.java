@@ -7,17 +7,19 @@ import javax.persistence.Id;
 public class Airport {
 
     @Id
-    private String code;
+    private String icao;
 
     private String name;
+    private String city;
     private String country;
+    private String iata;
 
-    public String getCode() {
-        return this.code;
+    public String getIcao() {
+        return this.icao;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setIcao(String icao) {
+        this.icao = icao;
     }
 
     public String getName() {
@@ -28,6 +30,14 @@ public class Airport {
         this.name = name;
     }
 
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getCountry() {
         return this.country;
     }
@@ -36,4 +46,11 @@ public class Airport {
         this.country = country;
     }
 
+    public String getIata() {
+        return this.iata;
+    }
+
+    public void setIata(String iata) {
+        this.iata = iata;
+    }
 }

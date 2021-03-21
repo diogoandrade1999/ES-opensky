@@ -1,6 +1,6 @@
 ## AIRPORTS CODE
+
 Name City Country IATA ICAO FAA
-Portugalito Armenia Colombia
 Santa Maria Vila do Porto Portugal SMA LPAZ
 Bragança Bragança Portugal BGC LPBG
 Braga Municipal Aerodrome Braga Portugal BGZ LPBR
@@ -69,12 +69,10 @@ Santa Maria Da Feira heliport Santa Maria Da Feira Portugal
 Sines heliport Sines Portugal
 Campo de Vôo de Benavente Benavente Portugal
 
-
 ###departure
 https://opensky-network.org/api/flights/departure?airport=LPAZ&begin=1615382195&end=1615814231
 
 [{"icao24":"495247","firstSeen":1615798389,"estDepartureAirport":"LPAZ","lastSeen":1615799397,"estArrivalAirport":"LPPD","callsign":"SAT100 ","estDepartureAirportHorizDistance":781,"estDepartureAirportVertDistance":96,"estArrivalAirportHorizDistance":195,"estArrivalAirportVertDistance":94,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0},{"icao24":"495245","firstSeen":1615652396,"estDepartureAirport":"LPAZ","lastSeen":1615653652,"estArrivalAirport":"LPPD","callsign":"SAT102 ","estDepartureAirportHorizDistance":297,"estDepartureAirportVertDistance":89,"estArrivalAirportHorizDistance":731,"estArrivalAirportVertDistance":86,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0},{"icao24":"495247","firstSeen":1615584025,"estDepartureAirport":"LPAZ","lastSeen":1615584967,"estArrivalAirport":"LPPD","callsign":"SAT106 ","estDepartureAirportHorizDistance":460,"estDepartureAirportVertDistance":58,"estArrivalAirportHorizDistance":91,"estArrivalAirportVertDistance":139,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0},{"icao24":"495247","firstSeen":1615537891,"estDepartureAirport":"LPAZ","lastSeen":1615539076,"estArrivalAirport":"LPPD","callsign":"SAT100 ","estDepartureAirportHorizDistance":1066,"estDepartureAirportVertDistance":149,"estArrivalAirportHorizDistance":266,"estArrivalAirportVertDistance":162,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0},{"icao24":"495243","firstSeen":1615496146,"estDepartureAirport":"LPAZ","lastSeen":1615497307,"estArrivalAirport":"LPPD","callsign":"SAT106 ","estDepartureAirportHorizDistance":464,"estDepartureAirportVertDistance":89,"estArrivalAirportHorizDistance":777,"estArrivalAirportVertDistance":178,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0},{"icao24":"a01f9d","firstSeen":1615470919,"estDepartureAirport":"LPAZ","lastSeen":1615488888,"estArrivalAirport":"TLPC","callsign":"TWY107 ","estDepartureAirportHorizDistance":4194,"estDepartureAirportVertDistance":142,"estArrivalAirportHorizDistance":25149,"estArrivalAirportVertDistance":1479,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":1},{"icao24":"495242","firstSeen":1615454304,"estDepartureAirport":"LPAZ","lastSeen":1615455446,"estArrivalAirport":"LPPD","callsign":"SAT2100 ","estDepartureAirportHorizDistance":1200,"estDepartureAirportVertDistance":104,"estArrivalAirportHorizDistance":341,"estArrivalAirportVertDistance":162,"departureAirportCandidatesCount":0,"arrivalAirportCandidatesCount":0}]
-
 
 ###arrival
 https://opensky-network.org/api/flights/arrival?airport=LPAZ&begin=1615382195&end=1615814231

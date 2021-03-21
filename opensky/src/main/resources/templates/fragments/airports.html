@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="airports">
+        <h4 class="text-info mt-4" th:text="${msg}"></h4>
+        <div th:if="${not #lists.isEmpty(airports)}">
+            <div
+                th:each="a, row: ${airports}"
+                th:with="numList=${#strings.listSplit('0,1,2', ',')}"
+                th:if="${row.index} % 3 == 0"
+                class="row mt-4"
+            >
+                <div
+                    th:each="num : ${numList}"
+                    th:with="dataIndex=(${row.index} + ${num})"
+                    class="col-4"
+                >
+                    <div
+                        th:if="${row.size > dataIndex}"
+                        th:with="airport=(${airports[dataIndex]})"
+                        class="card text-dark"
+                    >
+                        <div class="card-body">
+                            <h5
+                                class="card-title"
+                                th:text="${airport.name}"
+                            ></h5>
+                            <p class="card-text" th:text="${airport.icao}"></p>
+                            <p class="card-text" th:text="${airport.city}"></p>
+                            <button
+                                th:data-icao="${airport.icao}"
+                                class="btn btn-primary flightsBtn"
+                            >
+                                Flights
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

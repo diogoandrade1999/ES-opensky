@@ -13,18 +13,19 @@ import org.springframework.web.client.RestTemplate;
 import andr.springframework.opensky.serializers.FlightSerializer;
 
 @Controller
+@RequestMapping("flights")
 public class FlightController {
 
-    @RequestMapping(value = "flights/{code}", method = RequestMethod.GET)
-    public String cities(@PathVariable String code, Model model) {
+    @RequestMapping(value = "/{icao}", method = RequestMethod.GET)
+    public String cities(@PathVariable String icao, Model model) {
         model.addAttribute("msg", "Error load data!");
         // incomplete
         try {
-            String url = "https://opensky-network.org/api/flights/departure?airport=" + code
+            String url = "https://opensky-network.org/api/flights/departure?airport=" + icao
                     + "&begin=1615382195&end=1615814231";
             RestTemplate restTemplate = new RestTemplate();
             FlightSerializer[] flights = restTemplate.getForObject(url, FlightSerializer[].class);
-            System.out.println(flights);
+
             model.addAttribute("msg", "Not Found Flights!");
             assert flights != null;
 
@@ -39,6 +40,6 @@ public class FlightController {
             System.out.println("Error load data!");
             System.out.println(e);
         }
-        return "flights";
+        return "fragments/flights :: flights";
     }
 }

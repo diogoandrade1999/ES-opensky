@@ -1,0 +1,23 @@
+Santa Maria;Vila do Porto;Portugal;SMA;LPAZ
+João Paulo II;Ponta Delgada;Portugal;PDL;LPPD
+Lajes;Praia da Vitória;Portugal;TER;LPLA
+São Jorge;Velas;Portugal;SJZ;LPSJ
+Pico;Pico Island;Portugal;PIX;LPPI
+Horta;Horta;Portugal;HOR;LPHR
+Graciosa;Santa Cruz da Graciosa;Portugal;GRW;LPGR
+Flores;Santa Cruz das Flores;Portugal;FLW;LPFL
+Corvo;Corvo;Portugal;CVU;LPCR
+Madeira;Funchal;Portugal;FNC;LPMA
+Porto Santo;Vila Baleira;Portugal;PXO;LPPS
+Bragança;Bragança;Portugal;BGC;LPBG
+Braga Municipal Aerodrome;Braga;Portugal;BGZ;LPBR
+Chaves;Chaves;Portugal;CHV;LPCH
+Coimbra;Coimbra;Portugal;CBP;LPCO
+Faro;Faro;Portugal;FAO;LPFR
+Francisco de Sá Carneiro;Porto;Portugal;OPO;LPPR
+Lisbon Portela;Lisbon;Portugal;LIS;LPPT
+Vila Real;Vila Real;Portugal;VRL;LPVR
+Viseu;Viseu;Portugal;VSE;LPVZ
+Alverca;Vila Franca de Xira;Portugal;AVR;LPAR
+Beja International;Beja;Portugal;BYJ;LPBJ
+Cascais;Lisbon;Portugal;CAT;LPCS

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="flights">
+        <h4 class="text-info mt-4" th:text="${msg}"></h4>
+        <h2>Flights List</h2>
+        <div th:if="${not #lists.isEmpty(flights)}">
+            <table class="table mt-4">
+                <tr th:each="flight : ${flights}">
+                    <td th:text="${flight}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</html>

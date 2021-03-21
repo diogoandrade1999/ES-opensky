@@ -1,0 +1,163 @@
+[
+    {
+        "name": "Santa Maria",
+        "city": "Vila do Porto",
+        "country": "Portugal",
+        "iata": "SMA",
+        "icao": "LPAZ"
+    },
+    {
+        "name": "Jo\u00e3o Paulo II",
+        "city": "Ponta Delgada",
+        "country": "Portugal",
+        "iata": "PDL",
+        "icao": "LPPD"
+    },
+    {
+        "name": "Lajes",
+        "city": "Praia da Vit\u00f3ria",
+        "country": "Portugal",
+        "iata": "TER",
+        "icao": "LPLA"
+    },
+    {
+        "name": "S\u00e3o Jorge",
+        "city": "Velas",
+        "country": "Portugal",
+        "iata": "SJZ",
+        "icao": "LPSJ"
+    },
+    {
+        "name": "Pico",
+        "city": "Pico Island",
+        "country": "Portugal",
+        "iata": "PIX",
+        "icao": "LPPI"
+    },
+    {
+        "name": "Horta",
+        "city": "Horta",
+        "country": "Portugal",
+        "iata": "HOR",
+        "icao": "LPHR"
+    },
+    {
+        "name": "Graciosa",
+        "city": "Santa Cruz da Graciosa",
+        "country": "Portugal",
+        "iata": "GRW",
+        "icao": "LPGR"
+    },
+    {
+        "name": "Flores",
+        "city": "Santa Cruz das Flores",
+        "country": "Portugal",
+        "iata": "FLW",
+        "icao": "LPFL"
+    },
+    {
+        "name": "Corvo",
+        "city": "Corvo",
+        "country": "Portugal",
+        "iata": "CVU",
+        "icao": "LPCR"
+    },
+    {
+        "name": "Madeira",
+        "city": "Funchal",
+        "country": "Portugal",
+        "iata": "FNC",
+        "icao": "LPMA"
+    },
+    {
+        "name": "Porto Santo",
+        "city": "Vila Baleira",
+        "country": "Portugal",
+        "iata": "PXO",
+        "icao": "LPPS"
+    },
+    {
+        "name": "Bragan\u00e7a",
+        "city": "Bragan\u00e7a",
+        "country": "Portugal",
+        "iata": "BGC",
+        "icao": "LPBG"
+    },
+    {
+        "name": "Braga Municipal Aerodrome",
+        "city": "Braga",
+        "country": "Portugal",
+        "iata": "BGZ",
+        "icao": "LPBR"
+    },
+    {
+        "name": "Chaves",
+        "city": "Chaves",
+        "country": "Portugal",
+        "iata": "CHV",
+        "icao": "LPCH"
+    },
+    {
+        "name": "Coimbra",
+        "city": "Coimbra",
+        "country": "Portugal",
+        "iata": "CBP",
+        "icao": "LPCO"
+    },
+    {
+        "name": "Faro",
+        "city": "Faro",
+        "country": "Portugal",
+        "iata": "FAO",
+        "icao": "LPFR"
+    },
+    {
+        "name": "Francisco de S\u00e1 Carneiro",
+        "city": "Porto",
+        "country": "Portugal",
+        "iata": "OPO",
+        "icao": "LPPR"
+    },
+    {
+        "name": "Lisbon Portela",
+        "city": "Lisbon",
+        "country": "Portugal",
+        "iata": "LIS",
+        "icao": "LPPT"
+    },
+    {
+        "name": "Vila Real",
+        "city": "Vila Real",
+        "country": "Portugal",
+        "iata": "VRL",
+        "icao": "LPVR"
+    },
+    {
+        "name": "Viseu",
+        "city": "Viseu",
+        "country": "Portugal",
+        "iata": "VSE",
+        "icao": "LPVZ"
+    },
+    {
+        "name": "Alverca",
+        "city": "Vila Franca de Xira",
+        "country": "Portugal",
+        "iata": "AVR",
+        "icao": "LPAR"
+    },
+    {
+        "name": "Beja International",
+        "city": "Beja",
+        "country": "Portugal",
+        "iata": "BYJ",
+        "icao": "LPBJ"
+    },
+    {
+        "name": "Cascais",
+        "city": "Lisbon",
+        "country": "Portugal",
+        "iata": "CAT",
+        "icao": "LPCS"
+    }
+]

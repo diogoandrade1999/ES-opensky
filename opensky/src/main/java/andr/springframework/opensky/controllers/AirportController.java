@@ -1,20 +1,17 @@
 package andr.springframework.opensky.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import andr.springframework.opensky.domains.Airport;
 import andr.springframework.opensky.services.AirportService;
 
-@RestController
+@Controller
 @RequestMapping("airports")
-public class AirportRestController {
+public class AirportController {
 
     private AirportService airportService;
 
@@ -23,10 +20,9 @@ public class AirportRestController {
         this.airportService = airportService;
     }
 
-    @PostMapping
-    @ResponseBody
-    public List<Airport> airports(@RequestParam(value = "", required = true) String keyword) {
-        return airportService.searchAirports(keyword);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String airports2(@RequestParam String keyword, Model model) {
+        model.addAttribute("airports", airportService.searchAirports(keyword));
+        return "fragments/airports :: airports";
     }
-
 }
