@@ -1,6 +1,8 @@
 package andr.springframework.opensky.controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -18,11 +20,21 @@ public class FlightController {
 
     @RequestMapping(value = "/{icao}", method = RequestMethod.GET)
     public String cities(@PathVariable String icao, Model model) {
-        model.addAttribute("msg", "Error load data!");
-        // incomplete
+        model = callApi(icao, "departure", model);
+        model = callApi(icao, "arrival", model);
+        return "fragments/flights :: flights";
+    }
+
+    private Model callApi(String icao, String type, Model model) {
         try {
-            String url = "https://opensky-network.org/api/flights/departure?airport=" + icao
-                    + "&begin=1615382195&end=1615814231";
+            Date date = new Date();
+            long actualTime = date.getTime() / 1000L;
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -7);
+            long pastTime = calendar.getTime().getTime() / 1000L;
+            String url = "https://opensky-network.org/api/flights/" + type + "?airport=" + icao + "&begin=" + pastTime
+                    + "&end=" + actualTime;
+            System.out.println(url);
             RestTemplate restTemplate = new RestTemplate();
             FlightSerializer[] flights = restTemplate.getForObject(url, FlightSerializer[].class);
 
@@ -31,15 +43,16 @@ public class FlightController {
 
             if (flights.length != 0) {
                 model.addAttribute("msg", "");
-                model.addAttribute("flights", flights);
+                model.addAttribute(type + "Flights", flights);
             } else {
                 List<FlightSerializer> f = new ArrayList<>();
-                model.addAttribute("flights", f);
+                model.addAttribute(type + "Flights", f);
             }
         } catch (Exception e) {
+            model.addAttribute("msg", "Error on load data!");
             System.out.println("Error load data!");
             System.out.println(e);
         }
-        return "fragments/flights :: flights";
+        return model;
     }
 }

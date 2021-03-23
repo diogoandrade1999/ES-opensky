@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:fragment="airports">
-        <h4 class="text-info mt-4" th:text="${msg}"></h4>
         <div th:if="${not #lists.isEmpty(airports)}">
             <div
                 th:each="a, row: ${airports}"
@@ -17,7 +16,7 @@
                     <div
                         th:if="${row.size > dataIndex}"
                         th:with="airport=(${airports[dataIndex]})"
-                        class="card text-dark"
+                        class="card text-dark border-dark text-center"
                     >
                         <div class="card-body">
                             <h5
@@ -28,7 +27,8 @@
                             <p class="card-text" th:text="${airport.city}"></p>
                             <button
                                 th:data-icao="${airport.icao}"
-                                class="btn btn-primary flightsBtn"
+                                th:data-name="${airport.name}"
+                                class="btn btn-dark w-100 flightsBtn"
                             >
                                 Flights
                             </button>

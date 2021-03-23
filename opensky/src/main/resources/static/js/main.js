@@ -11,6 +11,8 @@ $(document).ready(function(){
     });
 
     $(document).on("click", ".flightsBtn", function() {
+        var name = $(this).data("name");
+        $("#airportsearch").val(name);
         var icao = $(this).data("icao");
         $("#airports").empty();
         $("#flights").load("/flights/" + icao);

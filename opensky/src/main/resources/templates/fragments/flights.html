@@ -1,14 +1,139 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:fragment="flights">
-        <h4 class="text-info mt-4" th:text="${msg}"></h4>
-        <h2>Flights List</h2>
-        <div th:if="${not #lists.isEmpty(flights)}">
-            <table class="table mt-4">
-                <tr th:each="flight : ${flights}">
-                    <td th:text="${flight}"></td>
-                </tr>
-            </table>
+        <div
+            class="alert alert-danger text-center"
+            role="alert"
+            th:if="${msg != ''}"
+            th:text="${msg}"
+        ></div>
+        <div class="nav nav-pills" id="nav-tab" role="tablist">
+            <a
+                th:if="${not #lists.isEmpty(departureFlights)}"
+                class="nav-link w-50 btn btn-dark text-center active"
+                data-toggle="pill"
+                href="#departureFlights"
+                role="tab"
+                aria-controls="nav-departureFlights"
+                aria-selected="true"
+                >Departure Flights List</a
+            >
+            <a
+                th:if="${not #lists.isEmpty(arrivalFlights)}"
+                class="nav-link w-50 btn btn-dark text-center"
+                data-toggle="pill"
+                href="#arrivalFlights"
+                role="tab"
+                aria-controls="nav-arrivalFlights"
+                aria-selected="false"
+                >Arrival Flights List</a
+            >
+        </div>
+        <div class="tab-content" id="nav-tabContent">
+            <div
+                th:if="${not #lists.isEmpty(departureFlights)}"
+                class="tab-pane fade show active"
+                id="departureFlights"
+                role="tabpanel"
+                aria-labelledby="nav-departureFlights"
+            >
+                <div
+                    th:each="a, row: ${departureFlights}"
+                    th:with="numList=${#strings.listSplit('0,1,2', ',')}"
+                    th:if="${row.index} % 3 == 0"
+                    class="row mt-4"
+                >
+                    <div
+                        th:each="num : ${numList}"
+                        th:with="dataIndex=(${row.index} + ${num})"
+                        class="col-4"
+                    >
+                        <div
+                            th:if="${row.size > dataIndex}"
+                            th:with="flight=(${departureFlights[dataIndex]})"
+                            class="card border-dark text-center text-dark"
+                        >
+                            <div class="card-body">
+                                <h5
+                                    class="card-title"
+                                    th:text="${flight.callsign}"
+                                ></h5>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.firstSeen}"
+                                ></p>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.lastSeen}"
+                                ></p>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.estArrivalAirport}"
+                                ></p>
+                                <button
+                                    th:if="${flight.estArrivalAirport}"
+                                    th:data-icao="${flight.estArrivalAirport}"
+                                    class="btn btn-dark w-100 flightsBtn"
+                                >
+                                    Flights Arrival Airport
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                th:if="${not #lists.isEmpty(arrivalFlights)}"
+                class="tab-pane fade"
+                id="arrivalFlights"
+                role="tabpanel"
+                aria-labelledby="nav-arrivalFlights"
+            >
+                <div
+                    th:each="a, row: ${arrivalFlights}"
+                    th:with="numList=${#strings.listSplit('0,1,2', ',')}"
+                    th:if="${row.index} % 3 == 0"
+                    class="row mt-4"
+                >
+                    <div
+                        th:each="num : ${numList}"
+                        th:with="dataIndex=(${row.index} + ${num})"
+                        class="col-4"
+                    >
+                        <div
+                            th:if="${row.size > dataIndex}"
+                            th:with="flight=(${arrivalFlights[dataIndex]})"
+                            class="card border-dark text-center text-dark"
+                        >
+                            <div class="card-body">
+                                <h5
+                                    class="card-title"
+                                    th:text="${flight.callsign}"
+                                ></h5>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.firstSeen}"
+                                ></p>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.lastSeen}"
+                                ></p>
+                                <p
+                                    class="card-text"
+                                    th:text="${flight.estDepartureAirport}"
+                                ></p>
+                                <button
+                                    th:if="${flight.estDepartureAirport}"
+                                    th:data-icao="${flight.estDepartureAirport}"
+                                    class="btn btn-dark w-100 flightsBtn"
+                                >
+                                    Flights Departure Airport
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </html>
