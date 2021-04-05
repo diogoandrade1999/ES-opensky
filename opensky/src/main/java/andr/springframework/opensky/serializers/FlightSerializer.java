@@ -1,17 +1,14 @@
 package andr.springframework.opensky.serializers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightSerializer {
 
     private String icao24;
-    private int firstSeen;
+    private long firstSeen;
     private String estDepartureAirport;
-    private int lastSeen;
+    private long lastSeen;
     private String estArrivalAirport;
     private String callsign;
     private int estDepartureAirportHorizDistance;
@@ -29,16 +26,11 @@ public class FlightSerializer {
         this.icao24 = icao24;
     }
 
-    public String getFirstSeen() {
-        long unixSeconds = this.firstSeen;
-        Date date = new java.util.Date(unixSeconds * 1000L);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
-        String formattedDate = sdf.format(date);
-        return formattedDate;
+    public long getFirstSeen() {
+        return this.firstSeen;
     }
 
-    public void setFirstSeen(int firstSeen) {
+    public void setFirstSeen(long firstSeen) {
         this.firstSeen = firstSeen;
     }
 
@@ -50,16 +42,11 @@ public class FlightSerializer {
         this.estDepartureAirport = estDepartureAirport;
     }
 
-    public String getLastSeen() {
-        long unixSeconds = this.lastSeen;
-        Date date = new java.util.Date(unixSeconds * 1000L);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
-        String formattedDate = sdf.format(date);
-        return formattedDate;
+    public long getLastSeen() {
+        return this.lastSeen;
     }
 
-    public void setLastSeen(int lastSeen) {
+    public void setLastSeen(long lastSeen) {
         this.lastSeen = lastSeen;
     }
 

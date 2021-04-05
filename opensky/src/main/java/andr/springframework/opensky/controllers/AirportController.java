@@ -13,12 +13,8 @@ import andr.springframework.opensky.services.AirportService;
 @RequestMapping("airports")
 public class AirportController {
 
-    private AirportService airportService;
-
     @Autowired
-    public void setAirportService(AirportService airportService) {
-        this.airportService = airportService;
-    }
+    private AirportService airportService;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String airports2(@RequestParam String keyword, Model model) {

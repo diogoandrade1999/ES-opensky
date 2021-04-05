@@ -10,6 +10,7 @@ import andr.springframework.opensky.repositories.AirportRepository;
 
 @Service
 public class AirportServiceImpl implements AirportService {
+
     private AirportRepository airportRepository;
 
     @Autowired
