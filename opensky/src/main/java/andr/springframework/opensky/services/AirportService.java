@@ -8,6 +8,8 @@ public interface AirportService {
 
     Iterable<Airport> listAllAirports();
 
+    List<String> getAllIds();
+
     Airport getAirportByIcao(String icao);
 
     List<Airport> searchAirports(String keyword);

@@ -1,5 +1,6 @@
 package andr.springframework.opensky.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class AirportServiceImpl implements AirportService {
     @Override
     public long count() {
         return airportRepository.count();
+    }
+
+    @Override
+    public List<String> getAllIds() {
+        Iterable<Airport> airports = airportRepository.findAll();
+        List<String> listIds = new ArrayList<>();
+        for (Airport airport : airports) {
+            listIds.add(airport.getIcao());
+        }
+        return listIds;
     }
 
 }

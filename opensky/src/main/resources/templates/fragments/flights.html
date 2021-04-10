@@ -2,10 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:fragment="flights">
         <div
+            class="alert alert-info text-center"
+            role="alert"
+            th:if="${msgInfo != ''}"
+            th:text="${msgInfo}"
+        ></div>
+        <div
             class="alert alert-danger text-center"
             role="alert"
-            th:if="${msg != ''}"
-            th:text="${msg}"
+            th:if="${msgError != ''}"
+            th:text="${msgError}"
         ></div>
         <div class="nav nav-pills" id="nav-tab" role="tablist">
             <a

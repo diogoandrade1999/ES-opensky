@@ -1,6 +1,5 @@
 package andr.springframework.opensky.controllers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import andr.springframework.opensky.domains.Flight;
 import andr.springframework.opensky.serializers.FlightSerializer;
+import andr.springframework.opensky.services.AirportService;
 import andr.springframework.opensky.services.FlightService;
 
 @Controller
@@ -24,29 +24,43 @@ public class FlightController {
     @Autowired
     private FlightService flightService;
 
-    /*@Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    @Autowired
+    private AirportService airportService;
 
-    public void sendMessage(String msg) {
-        kafkaTemplate.send("baeldung", msg);
-    }*/
+    /*
+     * @Autowired private KafkaTemplate<String, String> kafkaTemplate;
+     * 
+     * public void sendMessage(String msg) { kafkaTemplate.send("baeldung", msg); }
+     */
 
     @RequestMapping(value = "/{icao}", method = RequestMethod.GET)
     public String flights(@PathVariable String icao, Model model) {
-        Long[] times = getTimes(-1);
+        Long[] times = getTimes(0);
 
         List<Flight> flights = flightService.getEstDepartureAirport(icao, times[0], times[1]);
         if (flights.size() != 0) {
             model.addAttribute("departureFlights", flights);
+            model.addAttribute("msgInfo", "Data from database!");
         } else {
             model = callApi(icao, "departure", times, model);
+            if (model.getAttribute("msgError") == "") {
+                flights = flightService.getEstDepartureAirport(icao, times[0], times[1]);
+                model.addAttribute("departureFlights", flights);
+            }
+            model.addAttribute("msgInfo", "Data from API!");
         }
 
         flights = flightService.getEstArrivalAirport(icao, times[0], times[1]);
         if (flights.size() != 0) {
             model.addAttribute("arrivalFlights", flights);
+            model.addAttribute("msgInfo", "Data from database!");
         } else {
             model = callApi(icao, "arrival", times, model);
+            if (model.getAttribute("msgError") == "") {
+                flights = flightService.getEstArrivalAirport(icao, times[0], times[1]);
+                model.addAttribute("arrivalFlights", flights);
+            }
+            model.addAttribute("msgInfo", "Data from API!");
         }
         return "fragments/flights :: flights";
     }
@@ -58,24 +72,21 @@ public class FlightController {
             RestTemplate restTemplate = new RestTemplate();
             FlightSerializer[] flights = restTemplate.getForObject(url, FlightSerializer[].class);
 
-            model.addAttribute("msg", "Not Found Flights!");
+            model.addAttribute("msgError", "Not Found Flights!");
 
             if (flights.length != 0) {
-                model.addAttribute("msg", "");
-                model.addAttribute(type + "Flights", flights);
+                model.addAttribute("msgError", "");
+                List<String> listIds = airportService.getAllIds();
                 for (FlightSerializer f : flights) {
-                    Flight flight = new Flight(f.getFirstSeen(), f.getLastSeen(), f.getEstDepartureAirport(),
-                            f.getEstArrivalAirport(), f.getCallsign());
-                    flightService.saveFlight(flight);
+                    if (listIds.contains(f.getEstDepartureAirport()) && listIds.contains(f.getEstArrivalAirport())) {
+                        Flight flight = new Flight(f.getFirstSeen(), f.getLastSeen(), f.getEstDepartureAirport(),
+                                f.getEstArrivalAirport(), f.getCallsign());
+                        flightService.saveFlight(flight);
+                    }
                 }
-            } else {
-                List<FlightSerializer> f = new ArrayList<>();
-                model.addAttribute(type + "Flights", f);
             }
         } catch (Exception e) {
-            model.addAttribute("msg", "Error on load data!");
-            System.out.println("Error load data!");
-            System.out.println(e);
+            model.addAttribute("msgError", "Error on load data!");
         }
         return model;
     }
