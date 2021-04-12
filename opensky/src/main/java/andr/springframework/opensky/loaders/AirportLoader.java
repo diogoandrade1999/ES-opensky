@@ -18,14 +18,11 @@ import andr.springframework.opensky.repositories.AirportRepository;
 
 @Component
 public class AirportLoader implements ApplicationListener<ContextRefreshedEvent> {
-    private AirportRepository airportRepository;
 
     private Logger log = LogManager.getLogger(AirportLoader.class);
 
     @Autowired
-    public void setAirportRepository(AirportRepository airportRepository) {
-        this.airportRepository = airportRepository;
-    }
+    private AirportRepository airportRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

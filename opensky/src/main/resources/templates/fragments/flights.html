@@ -4,14 +4,20 @@
         <div
             class="alert alert-info text-center"
             role="alert"
-            th:if="${msgInfo != ''}"
+            th:if="${msgInfo}"
             th:text="${msgInfo}"
         ></div>
         <div
             class="alert alert-danger text-center"
             role="alert"
-            th:if="${msgError != ''}"
-            th:text="${msgError}"
+            th:if="${msgError1}"
+            th:text="${msgError1}"
+        ></div>
+        <div
+            class="alert alert-danger text-center"
+            role="alert"
+            th:if="${msgError2}"
+            th:text="${msgError2}"
         ></div>
         <div class="nav nav-pills" id="nav-tab" role="tablist">
             <a
@@ -81,7 +87,7 @@
                                     th:data-icao="${flight.estArrivalAirport}"
                                     class="btn btn-dark w-100 flightsBtn"
                                 >
-                                    Flights Arrival Airport
+                                    Flights of Arrival Airport
                                 </button>
                             </div>
                         </div>
@@ -133,7 +139,7 @@
                                     th:data-icao="${flight.estDepartureAirport}"
                                     class="btn btn-dark w-100 flightsBtn"
                                 >
-                                    Flights Departure Airport
+                                    Flights of Departure Airport
                                 </button>
                             </div>
                         </div>

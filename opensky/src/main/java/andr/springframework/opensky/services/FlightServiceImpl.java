@@ -16,33 +16,33 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public Iterable<Flight> listAllFlights() {
-        return flightRepository.findAll();
+        return this.flightRepository.findAll();
     }
 
     @Override
     public Flight saveFlight(Flight flight) {
-        return flightRepository.save(flight);
+        return this.flightRepository.save(flight);
     }
 
     @Override
     public long count() {
-        return flightRepository.count();
+        return this.flightRepository.count();
     }
 
     @Override
     public Flight getFlightById(long id) {
-        return flightRepository.findById(id).orElse(null);
+        return this.flightRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Flight> getEstDepartureAirport(String estDepartureAirport, long startFirstSeen, long endFirstSeen) {
-        return flightRepository.findByEstDepartureAirportAndFirstSeenBetween(estDepartureAirport, startFirstSeen,
+        return this.flightRepository.findByEstDepartureAirportAndFirstSeenBetween(estDepartureAirport, startFirstSeen,
                 endFirstSeen);
     }
 
     @Override
     public List<Flight> getEstArrivalAirport(String estArrivalAirport, long startFirstSeen, long endFirstSeen) {
-        return flightRepository.findByEstArrivalAirportAndFirstSeenBetween(estArrivalAirport, startFirstSeen,
+        return this.flightRepository.findByEstArrivalAirportAndFirstSeenBetween(estArrivalAirport, startFirstSeen,
                 endFirstSeen);
     }
 

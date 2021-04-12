@@ -12,44 +12,40 @@ import andr.springframework.opensky.repositories.AirportRepository;
 @Service
 public class AirportServiceImpl implements AirportService {
 
-    private AirportRepository airportRepository;
-
     @Autowired
-    public void setAirportRepository(AirportRepository airportRepository) {
-        this.airportRepository = airportRepository;
-    }
+    private AirportRepository airportRepository;
 
     @Override
     public Iterable<Airport> listAllAirports() {
-        return airportRepository.findAll();
+        return this.airportRepository.findAll();
     }
 
     @Override
     public Airport getAirportByIcao(String icao) {
-        return airportRepository.findById(icao).orElse(null);
+        return this.airportRepository.findById(icao).orElse(null);
     }
 
     @Override
     public List<Airport> searchAirports(String keyword) {
         if (keyword != null) {
-            return airportRepository.findByNameContainsAllIgnoreCase(keyword);
+            return this.airportRepository.findByNameContainsAllIgnoreCase(keyword);
         }
         return null;
     }
 
     @Override
     public Airport saveAirport(Airport airport) {
-        return airportRepository.save(airport);
+        return this.airportRepository.save(airport);
     }
 
     @Override
     public long count() {
-        return airportRepository.count();
+        return this.airportRepository.count();
     }
 
     @Override
     public List<String> getAllIds() {
-        Iterable<Airport> airports = airportRepository.findAll();
+        Iterable<Airport> airports = this.airportRepository.findAll();
         List<String> listIds = new ArrayList<>();
         for (Airport airport : airports) {
             listIds.add(airport.getIcao());

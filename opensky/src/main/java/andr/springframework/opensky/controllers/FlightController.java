@@ -1,8 +1,11 @@
 package andr.springframework.opensky.controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
@@ -13,16 +16,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import andr.springframework.opensky.domains.Flight;
+import andr.springframework.opensky.domains.Manager;
 import andr.springframework.opensky.serializers.FlightSerializer;
 import andr.springframework.opensky.services.AirportService;
 import andr.springframework.opensky.services.FlightService;
+import andr.springframework.opensky.services.ManagerService;
 
 @Controller
-@RequestMapping("flights")
+@RequestMapping("/flights")
 public class FlightController {
+
+    private Logger log = LogManager.getLogger(FlightController.class);
+    // ! ---------- trocar para 7 (1 semana) ---------------
+    private int daysRange = -50;
 
     @Autowired
     private FlightService flightService;
+
+    @Autowired
+    private ManagerService managerService;
 
     @Autowired
     private AirportService airportService;
@@ -35,95 +47,110 @@ public class FlightController {
 
     @RequestMapping(value = "/{icao}", method = RequestMethod.GET)
     public String flights(@PathVariable String icao, Model model) {
-        Long[] times = getTimes(0);
-
-        List<Flight> flights = flightService.getEstDepartureAirport(icao, times[0], times[1]);
-        if (flights.size() != 0) {
-            model.addAttribute("departureFlights", flights);
-            model.addAttribute("msgInfo", "Data from database!");
-        } else {
-            model = callApi(icao, "departure", times, model);
-            if (model.getAttribute("msgError") == "") {
-                flights = flightService.getEstDepartureAirport(icao, times[0], times[1]);
-                model.addAttribute("departureFlights", flights);
-            }
-            model.addAttribute("msgInfo", "Data from API!");
+        // unix time of last daysRange days
+        List<Long> lastDaysRange = new ArrayList<>();
+        for (int i = this.daysRange; i <= 0; i++) {
+            lastDaysRange.add(getTimes(i)[0]);
         }
+        Long[] today = getTimes(0);
 
-        flights = flightService.getEstArrivalAirport(icao, times[0], times[1]);
-        if (flights.size() != 0) {
-            model.addAttribute("arrivalFlights", flights);
-            model.addAttribute("msgInfo", "Data from database!");
+        Manager manager = this.managerService.getManagerByAirport(icao);
+        // check if airport have some data on db
+        if (manager == null) {
+            manager = new Manager(icao);
+            Long[] timeGet = { lastDaysRange.get(0), today[1] };
+            model = getDataFromApi(icao, timeGet, model);
+            model.addAttribute("msgInfo", "Data from Api!");
         } else {
-            model = callApi(icao, "arrival", times, model);
-            if (model.getAttribute("msgError") == "") {
-                flights = flightService.getEstArrivalAirport(icao, times[0], times[1]);
-                model.addAttribute("arrivalFlights", flights);
+            List<Long> managerDaysSaved = manager.getDays();
+            // ! ---------- trocar i=1 para i=this.daysRange ---------------
+            for (int i = 1; i <= 0; i++) {
+                Long[] timeGet = getTimes(i);
+                if (!managerDaysSaved.contains(timeGet[0])) {
+                    model = getDataFromApi(icao, timeGet, model);
+                    if (model.getAttribute("msgError1") == null && model.getAttribute("msgError2") == null) {
+                        manager.addDay(timeGet[0]);
+                    }
+                    model.addAttribute("msgInfo", "Data from Api!");
+                }
             }
-            model.addAttribute("msgInfo", "Data from API!");
+        }
+        this.managerService.saveManager(manager);
+
+        model.addAttribute("departureFlights", this.flightService.getEstDepartureAirport(icao, lastDaysRange.get(0),
+                lastDaysRange.get(lastDaysRange.size() - 1)));
+        model.addAttribute("arrivalFlights", this.flightService.getEstArrivalAirport(icao, lastDaysRange.get(0),
+                lastDaysRange.get(lastDaysRange.size() - 1)));
+
+        if (model.getAttribute("msgInfo") == null) {
+            model.addAttribute("msgInfo", "Data from database!");
         }
         return "fragments/flights :: flights";
     }
 
-    private Model callApi(String icao, String type, Long[] times, Model model) {
+    private Model getDataFromApi(String icao, Long[] times, Model model) {
+        FlightSerializer[] flights;
+        flights = callApi(icao, "departure", times);
+        if (flights == null) {
+            model.addAttribute("msgError1", "Error on get departure flights from API!");
+        } else {
+            saveApiData(flights);
+        }
+        flights = callApi(icao, "arrival", times);
+        if (flights == null) {
+            model.addAttribute("msgError2", "Error on get arrival flights from API!");
+        } else {
+            saveApiData(flights);
+        }
+        return model;
+    }
+
+    private FlightSerializer[] callApi(String icao, String type, Long[] times) {
+        FlightSerializer[] flights = null;
         try {
             String url = "https://opensky-network.org/api/flights/" + type + "?airport=" + icao + "&begin=" + times[0]
                     + "&end=" + times[1];
             RestTemplate restTemplate = new RestTemplate();
-            FlightSerializer[] flights = restTemplate.getForObject(url, FlightSerializer[].class);
+            flights = restTemplate.getForObject(url, FlightSerializer[].class);
+        } catch (Exception e) {
+            this.log.info("Error on get data from API!");
+        }
+        return flights;
+    }
 
-            model.addAttribute("msgError", "Not Found Flights!");
-
+    private void saveApiData(FlightSerializer[] flights) {
+        if (flights != null) {
             if (flights.length != 0) {
-                model.addAttribute("msgError", "");
-                List<String> listIds = airportService.getAllIds();
+                List<String> listIds = this.airportService.getAllIds();
                 for (FlightSerializer f : flights) {
                     if (listIds.contains(f.getEstDepartureAirport()) && listIds.contains(f.getEstArrivalAirport())) {
                         Flight flight = new Flight(f.getFirstSeen(), f.getLastSeen(), f.getEstDepartureAirport(),
                                 f.getEstArrivalAirport(), f.getCallsign());
-                        flightService.saveFlight(flight);
+                        this.flightService.saveFlight(flight);
                     }
                 }
             }
-        } catch (Exception e) {
-            model.addAttribute("msgError", "Error on load data!");
         }
-        return model;
     }
 
     public Long[] getTimes(int diff) {
         // today
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, diff);
 
         long initTime = 0;
         long finishTime = 0;
-        if (diff >= 0) {
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            initTime = calendar.getTime().getTime() / 1000L;
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        initTime = calendar.getTime().getTime() / 1000L;
 
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 59);
-            calendar.set(Calendar.SECOND, 59);
-            calendar.set(Calendar.MILLISECOND, 59);
-            calendar.add(Calendar.DAY_OF_MONTH, diff);
-            finishTime = calendar.getTime().getTime() / 1000L;
-        } else {
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 59);
-            calendar.set(Calendar.SECOND, 59);
-            calendar.set(Calendar.MILLISECOND, 59);
-            finishTime = calendar.getTime().getTime() / 1000L;
-
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            calendar.add(Calendar.DAY_OF_MONTH, diff);
-            initTime = calendar.getTime().getTime() / 1000L;
-        }
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 59);
+        finishTime = calendar.getTime().getTime() / 1000L;
 
         Long[] times = { initTime, finishTime };
         return times;

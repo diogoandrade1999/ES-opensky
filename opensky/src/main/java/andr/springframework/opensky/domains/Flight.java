@@ -20,6 +20,9 @@ public class Flight {
     private String estArrivalAirport;
     private String callsign;
 
+    public Flight() {
+    }
+
     public Flight(long firstSeen, long lastSeen, String estDepartureAirport, String estArrivalAirport,
             String callsign) {
         this.firstSeen = firstSeen;
@@ -50,8 +53,13 @@ public class Flight {
         this.firstSeen = firstSeen;
     }
 
-    public long getLastSeen() {
-        return this.lastSeen;
+    public String getLastSeen() {
+        long unixSeconds = this.lastSeen;
+        Date date = new java.util.Date(unixSeconds * 1000L);
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
+        String formattedDate = sdf.format(date);
+        return formattedDate;
     }
 
     public void setLastSeen(long lastSeen) {
