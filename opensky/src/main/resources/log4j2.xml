@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info" name="spring-boot-kafka-log" packages="com.devglan">
+<Configuration status="info" name="spring-boot-kafka-log" >
     <Appenders>
-        <Kafka name="Kafka" topic="devglan-test">
+        <Kafka name="Kafka" topic="opensky-logs">
             <PatternLayout pattern="%date %message"/>
             <Property name="bootstrap.servers">localhost:9092</Property>
         </Kafka>
