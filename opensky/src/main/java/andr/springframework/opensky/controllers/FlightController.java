@@ -27,8 +27,7 @@ import andr.springframework.opensky.services.ManagerService;
 public class FlightController {
 
     private Logger log = LogManager.getLogger(FlightController.class);
-    // ! ---------- trocar para 7 (1 semana) ---------------
-    private int daysRange = -50;
+    private int daysRange = -6;
 
     @Autowired
     private FlightService flightService;
@@ -60,11 +59,13 @@ public class FlightController {
             manager = new Manager(icao);
             Long[] timeGet = { lastDaysRange.get(0), today[1] };
             model = getDataFromApi(icao, timeGet, model);
+            if (model.getAttribute("msgError1") == null && model.getAttribute("msgError2") == null) {
+                manager.setDays(lastDaysRange);
+            }
             model.addAttribute("msgInfo", "Data from Api!");
         } else {
             List<Long> managerDaysSaved = manager.getDays();
-            // ! ---------- trocar i=1 para i=this.daysRange ---------------
-            for (int i = 1; i <= 0; i++) {
+            for (int i = this.daysRange; i <= 0; i++) {
                 Long[] timeGet = getTimes(i);
                 if (!managerDaysSaved.contains(timeGet[0])) {
                     model = getDataFromApi(icao, timeGet, model);
